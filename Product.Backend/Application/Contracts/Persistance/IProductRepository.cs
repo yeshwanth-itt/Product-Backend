@@ -8,6 +8,7 @@ namespace Product.Backend.Application.Contracts.Persistance
         Task<Domain.Product?> GetByIdAsync(int id);
         Task UpdateAsync(Domain.Product product);
         Task DeleteAsync(Domain.Product product);
+        Task<List<Domain.Product>> GetPagedAsync(int pageNumber, int pageSize);
     }
 
 }

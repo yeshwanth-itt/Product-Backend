@@ -47,11 +47,11 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpGet("paged")]
-        public void GetProducts([FromQuery(Name = "")] int pageNumber, int pageSize)
+        public async Task<IActionResult> GetProducts([FromQuery] int pageNumber, int pageSize)
         {
-
+            var pagedProducts = await _productService.GetPagedProductsAsync(pageNumber, pageSize);
+            return Ok(pagedProducts);
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct([FromRoute]int id, [FromBody] ProductDto product)

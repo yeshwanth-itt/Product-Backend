@@ -43,5 +43,15 @@ namespace Product.Backend.Infrastructure.Repositories
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Domain.Product>> GetPagedAsync(int pageNumber, int pageSize)
+        {
+            return await _context.Products
+                .AsNoTracking()
+                .OrderBy(p => p.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace Product.Backend.Application.Contracts.Services
         Task<bool> DeleteProductAsync(int id);
         Task<bool> IncreaseStockAsync(int id, int quantity);
         Task<bool> DecreaseStockAsync(int id, int quantity);
+        Task<List<ProductDto>> GetPagedProductsAsync(int pageNumber, int pageSize);
     }
 }

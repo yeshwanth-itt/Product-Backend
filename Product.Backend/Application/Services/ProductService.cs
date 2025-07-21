@@ -86,5 +86,11 @@ namespace Product.Backend.Application.Services
             await _productRepository.UpdateAsync(product);
             return true;
         }
+
+        public async Task<List<ProductDto>> GetPagedProductsAsync(int pageNumber, int pageSize)
+        {
+            var products = await _productRepository.GetPagedAsync(pageNumber, pageSize);
+            return _mapper.Map<List<ProductDto>>(products);
+        }
     }
 }
