@@ -157,9 +157,9 @@ namespace Product.Backend.UnitTests.API
 
             var result = await _productController.UpdateProduct(1, dto);
 
-            var noContentResult = result as NoContentResult;
+            var noContentResult = result as OkObjectResult;
             Assert.IsNotNull(noContentResult);
-            Assert.AreEqual(204, noContentResult.StatusCode);
+            Assert.AreEqual(200, noContentResult.StatusCode);
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace Product.Backend.UnitTests.API
 
             var result = await _productController.DeleteProduct(1);
 
-            Assert.IsInstanceOf<NoContentResult>(result);
+            Assert.IsInstanceOf<OkObjectResult>(result);
         }
 
         [Test]

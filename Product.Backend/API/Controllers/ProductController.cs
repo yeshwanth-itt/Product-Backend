@@ -81,7 +81,7 @@ namespace Product.Backend.API.Controllers
             }
 
             _logger.LogInformation("Product with ID {Id} updated successfully", id);
-            return NoContent();
+            return Ok(new { Message = "Product was updated successfully" });
         }
 
         [HttpDelete("{id}")]
@@ -95,7 +95,7 @@ namespace Product.Backend.API.Controllers
             }
 
             _logger.LogInformation("Product with ID {Id} deleted successfully", id);
-            return NoContent();
+            return Ok(new { Message = "Product was deleted successfully" });
         }
 
         [HttpPut("add-to-stock/{id}/{quantity}")]
