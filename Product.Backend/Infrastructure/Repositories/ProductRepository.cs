@@ -34,14 +34,30 @@ namespace Product.Backend.Infrastructure.Repositories
 
         public async Task UpdateAsync(Domain.Product product)
         {
-            _context.Products.Update(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogWarning("Concurrency conflict while updating Product with ID {Id}", product.Id);
+                throw new DbUpdateConcurrencyException("The product was modified by another user.", ex);
+            }
         }
 
         public async Task DeleteAsync(Domain.Product product)
         {
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogWarning("Concurrency conflict while deleting Product with ID {Id}", product.Id);
+                throw new DbUpdateConcurrencyException("The product was modified or deleted by another user.", ex);
+            }
         }
 
         public async Task<List<Domain.Product>> GetPagedAsync(int pageNumber, int pageSize)

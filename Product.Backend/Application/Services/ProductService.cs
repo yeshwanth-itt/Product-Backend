@@ -9,11 +9,13 @@ namespace Product.Backend.Application.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<ProductService> _logger;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper, ILogger<ProductService> logger)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<ProductDto> CreateProductsAsync(ProductDto productDto)
@@ -33,6 +35,11 @@ namespace Product.Backend.Application.Services
         public async Task<ProductDto?> GetProductById(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                _logger.LogWarning("Product with ID {ProductId} not found.", id);
+            }
+
             return _mapper.Map<ProductDto>(product);
         }
 
@@ -41,6 +48,7 @@ namespace Product.Backend.Application.Services
             var existingProduct = await _productRepository.GetByIdAsync(productDto.Id);
             if (existingProduct is null)
             {
+                _logger.LogWarning("Cannot update. Product with ID {ProductId} not found.", productDto.Id);
                 return false;
             }
 
@@ -54,6 +62,7 @@ namespace Product.Backend.Application.Services
             var product = await _productRepository.GetByIdAsync(id);
             if (product is null)
             {
+                _logger.LogWarning("Cannot delete. Product with ID {ProductId} not found.", id);
                 return false;
             }
 
@@ -66,6 +75,7 @@ namespace Product.Backend.Application.Services
             var product = await _productRepository.GetByIdAsync(id);
             if (product is null)
             {
+                _logger.LogWarning("Product with ID {ProductId} not found for stock increment.", id);
                 return false;
             }
 
@@ -77,8 +87,15 @@ namespace Product.Backend.Application.Services
         public async Task<bool> DecreaseStockAsync(int id, int quantity)
         {
             var product = await _productRepository.GetByIdAsync(id);
-            if (product is null || product.Stock < quantity)
+            if (product is null)
             {
+                _logger.LogWarning("Product with ID {ProductId} not found for stock decrement.", id);
+                return false;
+            }
+
+            if (product.Stock < quantity)
+            {
+                _logger.LogWarning("Insufficient stock for product ID {ProductId}. Available: {Stock}, Requested: {Quantity}", id, product.Stock, quantity);
                 return false;
             }
 

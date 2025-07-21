@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Product.Backend.API.Filters;
+using Product.Backend.API.Middleware;
 using Product.Backend.Application.Contracts.Persistance;
 using Product.Backend.Application.Contracts.Services;
 using Product.Backend.Application.MappingProfiles;
@@ -9,7 +11,10 @@ using Product.Backend.Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<LogActionFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -30,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
