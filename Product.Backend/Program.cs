@@ -10,11 +10,7 @@ using Product.Backend.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<LogActionFilter>();
-});
+builder.Services.AddControllers(options => { options.Filters.Add<LogActionFilter>(); });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

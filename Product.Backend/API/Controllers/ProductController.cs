@@ -21,7 +21,7 @@ namespace Product.Backend.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ProductDto>> CreateProduct([FromBody]ProductDto product)
+        public async Task<ActionResult<ProductDto>> CreateProduct([FromBody] CreateProductDto product)
         {
             var createdProduct = await _productService.CreateProductsAsync(product);
             if (createdProduct is null)
@@ -35,6 +35,8 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
@@ -43,6 +45,9 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ProductDto>> GetProductById([FromRoute]int id)
         {
             var product = await _productService.GetProductById(id);
@@ -57,6 +62,9 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpGet("paged")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts([FromQuery] int pageNumber, int pageSize)
         {
             var pagedProducts = await _productService.GetPagedProductsAsync(pageNumber, pageSize);
@@ -65,6 +73,10 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateProduct([FromRoute] int id, [FromBody] ProductDto product)
         {
             if (id != product.Id)
@@ -85,6 +97,10 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteProduct([FromRoute]int id)
         {
             var deleted = await _productService.DeleteProductAsync(id);
@@ -99,6 +115,10 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpPut("add-to-stock/{id}/{quantity}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> IncreaseProductStock([FromRoute]int id,[FromRoute] int quantity)
         {
             var success = await _productService.IncreaseStockAsync(id, quantity);
@@ -113,6 +133,10 @@ namespace Product.Backend.API.Controllers
         }
 
         [HttpPut("decrement-to-stock/{id}/{quantity}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DecreaseProductStock([FromRoute] int id, [FromRoute] int quantity)
         {
             var success = await _productService.DecreaseStockAsync(id, quantity);

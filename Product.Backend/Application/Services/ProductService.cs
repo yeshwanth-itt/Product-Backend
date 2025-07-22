@@ -18,9 +18,9 @@ namespace Product.Backend.Application.Services
             _logger = logger;
         }
 
-        public async Task<ProductDto> CreateProductsAsync(ProductDto productDto)
+        public async Task<ProductDto> CreateProductsAsync(CreateProductDto createProductDto)
         {
-            var product = _mapper.Map<Domain.Product>(productDto);
+            var product = _mapper.Map<Domain.Product>(createProductDto);
             var createdProduct = await _productRepository.CreateAsync(product);
 
             return _mapper.Map<ProductDto>(createdProduct);

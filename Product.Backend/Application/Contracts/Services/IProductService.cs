@@ -5,8 +5,8 @@ namespace Product.Backend.Application.Contracts.Services
 {
     public interface IProductService
     {
+        Task<ProductDto> CreateProductsAsync(CreateProductDto createProductDto);
         Task<IEnumerable<ProductDto>> GetAllProductsAsync();
-        Task<ProductDto> CreateProductsAsync(ProductDto productDto);
         Task<ProductDto?> GetProductById(int id);
         Task<bool> UpdateProductAsync(ProductDto productDto);
         Task<bool> DeleteProductAsync(int id);
