@@ -17,7 +17,7 @@ A clean and modular **.NET Web API** project for managing products, built using 
 -  Concurrency handling using RowVersion
 -  Custom Action Filters
 -  Clean separation using:
-  - API Layer
-  - Application Layer
-  - Domain Layer
-  - Infrastructure Layer
+    - API Layer
+    - Application Layer
+    - Domain Layer
+    - Infrastructure Layer
