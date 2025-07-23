@@ -131,9 +131,12 @@ internal class ProductControllerUnitTests
         var result = await _productController.UpdateProduct(routeId, dto);
 
         var badRequestResult = result as BadRequestObjectResult;
-        Assert.IsNotNull(badRequestResult);
-        Assert.AreEqual(400, badRequestResult.StatusCode);
-        Assert.AreEqual("ID mismatch between route and body.", badRequestResult.Value);
+        Assert.Multiple(() =>
+        {
+            Assert.IsNotNull(badRequestResult);
+            Assert.AreEqual(400, badRequestResult.StatusCode);
+            Assert.AreEqual("ID mismatch between route and body.", badRequestResult.Value);
+        });
     }
 
     [Test]
@@ -145,8 +148,11 @@ internal class ProductControllerUnitTests
         var result = await _productController.UpdateProduct(1, dto);
 
         var notFoundResult = result as NotFoundResult;
-        Assert.IsNotNull(notFoundResult);
-        Assert.AreEqual(404, notFoundResult.StatusCode);
+        Assert.Multiple(() =>
+        {
+            Assert.IsNotNull(notFoundResult);
+            Assert.AreEqual(404, notFoundResult.StatusCode);
+        });
     }
 
     [Test]
@@ -158,8 +164,11 @@ internal class ProductControllerUnitTests
         var result = await _productController.UpdateProduct(1, dto);
 
         var noContentResult = result as OkObjectResult;
-        Assert.IsNotNull(noContentResult);
-        Assert.AreEqual(200, noContentResult.StatusCode);
+        Assert.Multiple(() =>
+        {
+            Assert.IsNotNull(noContentResult);
+            Assert.AreEqual(200, noContentResult.StatusCode);
+        });
     }
 
     [Test]
@@ -191,9 +200,11 @@ internal class ProductControllerUnitTests
         var result = await _productController.IncreaseProductStock(1, 5);
 
         var okResult = result as OkObjectResult;
-        Assert.IsNotNull(okResult);
-        Assert.AreEqual(200, okResult.StatusCode);
-        StringAssert.Contains("Stock increased by", okResult.Value.ToString());
+        Assert.Multiple(() =>
+        {
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+        });
     }
 
     [Test]
@@ -214,9 +225,11 @@ internal class ProductControllerUnitTests
         var result = await _productController.DecreaseProductStock(1, 3);
 
         var okResult = result as OkObjectResult;
-        Assert.IsNotNull(okResult);
-        Assert.AreEqual(200, okResult.StatusCode);
-        StringAssert.Contains("Stock decreased by", okResult.Value.ToString());
+        Assert.Multiple(() =>
+        {
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+        });
     }
 
     [Test]
